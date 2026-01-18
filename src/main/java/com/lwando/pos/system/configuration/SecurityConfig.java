@@ -1,6 +1,5 @@
 package com.lwando.pos.system.configuration;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,19 +11,20 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
+
 
 @Configuration
 public class SecurityConfig {
 
     public SecurityFilterChain securityFilterChain(
-            HttpSecurity http) throws Exception{
+            HttpSecurity http) throws Exception {
 
 
-                return http
+        return http
                 .sessionManagement(management -> management.sessionCreationPolicy(
                         SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(Authorize->
+                .authorizeHttpRequests(Authorize ->
                         Authorize.requestMatchers("/api/**").authenticated()
                                 .requestMatchers("/api/super-admin/**").hasRole("ADMIN")
                                 .anyRequest().permitAll()
@@ -35,27 +35,25 @@ public class SecurityConfig {
                         cors -> cors.configurationSource(corsConfigurationSource())
                 ).build();
 
-
-//        return HttpSecurity;
     }
-}
 
-private CorsConfigurationSource corsConfigurationSource(){
-    return new CorsConfigurationSource(){
-        @Override
-        public CorsConfiguration getCorsConfiguration(HttpServletRequest request){
-            CorsConfiguration cfg = new CorsConfiguration();
-            cfg.setAllowedOrigins(
-                    Arrays.asList(
-                            "http://localhost:5173",
-                            "http://localhost:3000"
-                    )
-            );
-            cfg.addAllowedMethod(Collections.singletonList("*"));
-            cfg.setAllowCredentials(true);
-            cfg.setAllowedHeaders();
-            return null;
-        }
+    private CorsConfigurationSource corsConfigurationSource() {
+        return new CorsConfigurationSource() {
+            @Override
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                CorsConfiguration cfg = new CorsConfiguration();
+                cfg.setAllowedOrigins(
+                        Arrays.asList(
+                                "http://localhost:5173",
+                                "http://localhost:3000"
+                        )
+                );
+                cfg.setAllowedMethods(List.of("*"));
+                cfg.setAllowedHeaders(List.of("*"));
+                cfg.setAllowCredentials(true);
+                return null;
+            }
 
-    };
+        };
+    }
 }
