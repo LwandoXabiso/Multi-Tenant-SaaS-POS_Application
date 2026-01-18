@@ -1,6 +1,6 @@
 # 🚀 Enterprise-Grade Point of Sale (POS) System
 
-A **complete, production-ready, enterprise POS system** with multiple dashboards, real-time analytics, and professional features that rival commercial solutions worth **thousands of dollars**.  
+A **complete, production-ready, enterprise POS system** with multiple dashboards, real-time analytics, and professional features that rival commercial solutions worth **thousands of Rands**.  
 Built to demonstrate **real-world enterprise architecture**, scalable design, and industry best practices using **Spring Boot + React**.
 
 ---
