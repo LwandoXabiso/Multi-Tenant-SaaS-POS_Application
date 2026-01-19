@@ -33,9 +33,12 @@ public class User {
     @Column(nullable = false)
     private UserRole role;
 
+    @Column(nullable = false)
+    private String password;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private LocalDateTime lastLoginAt;
+    private LocalDateTime lastLogin;
 
 
 

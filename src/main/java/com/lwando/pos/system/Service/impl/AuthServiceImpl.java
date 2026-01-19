@@ -1,0 +1,115 @@
+package com.lwando.pos.system.Service.impl;
+
+import com.lwando.pos.system.Service.AuthService;
+import com.lwando.pos.system.configuration.JwtProvider;
+import com.lwando.pos.system.domain.UserRole;
+import com.lwando.pos.system.exceptions.UserException;
+import com.lwando.pos.system.mapper.UserMapper;
+import com.lwando.pos.system.modal.User;
+import com.lwando.pos.system.payload.dto.UserDto;
+import com.lwando.pos.system.payload.response.AuthResponse;
+import com.lwando.pos.system.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Collection;
+
+
+@Service
+@RequiredArgsConstructor
+public class AuthServiceImpl implements AuthService {
+
+    private UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
+    private final CustomUserImplementation customUserImplementation;
+
+    @Override
+    public AuthResponse register(UserDto userDto) throws UserException {
+        User user = userRepository.findByEmail(userDto.getEmail());
+        if(user != null){
+            throw new UserException("email id already registered !");
+        }
+
+        if (userDto.getRole().equals(UserRole.ROLE_ADMIN)) {
+            throw new UserException("Role admin is not allowed !");
+        }
+        
+        User newUser = new User();
+        newUser.setEmail(userDto.getEmail());
+        newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        newUser.setRole(userDto.getRole());
+        newUser.setFullName(userDto.getFullName());
+        newUser.setPhone(userDto.getPhone());
+        newUser.setLastLogin(LocalDateTime.now());
+        
+        newUser.setUpdatedAt(LocalDateTime.now());
+        
+        User savedUser =userRepository.save(newUser);
+
+        Authentication authentication = 
+                new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+        
+        String jwt = jwtProvider.generateToken(authentication);
+        
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("Registered Successfully");
+        authResponse.setUser(UserMapper.toDTO(savedUser));
+
+
+        return authResponse;
+    }
+
+    @Override
+    public AuthResponse login(UserDto userDto) throws UserException {
+        
+        String email = userDto.getEmail();
+        String password = userDto.getPassword();
+        Authentication authentication = authenticate(email, password);
+
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        String role = authorities.iterator().next().getAuthority();
+
+        String jwt = jwtProvider.generateToken(authentication);
+
+        User user = userRepository.findByEmail(email);
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("Login Successfully");
+        authResponse.setUser(UserMapper.toDTO(user));
+
+        return authResponse;
+    }
+
+    private Authentication authenticate(String email, String password) throws UserException {
+
+        UserDetails userDetails = customUserImplementation.loadUserByUsername(email);
+        if(userDetails == null){
+            throw new UserException(STR."Email ID does not exist \{email}");
+        }
+
+        if(!passwordEncoder.matches(password, userDetails.getPassword())){
+            throw new UserException("Password does  not match");
+        }
+
+        return new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+    }
+}
