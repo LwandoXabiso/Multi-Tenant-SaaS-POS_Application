@@ -22,16 +22,52 @@ import java.util.List;
 public class JwtValidator extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(
+
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
+        // New added code
+        String path = request.getServletPath();
+
+        if (path.startsWith("/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 
-        if (jwt != null){
+//        if (jwt != null){
+//            jwt = jwt.substring(7);
+//            try{
+//                SecretKey key = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRETE.getBytes());
+//                Claims claims = Jwts.parser()
+//                        .verifyWith(key)
+//                        .build()
+//                        .parseSignedClaims(jwt)
+//                        .getPayload();
+//
+//                String email = String.valueOf(claims.get("email"));
+//                String authorities = String.valueOf(claims.get("authorities"));
+//
+//                List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(
+//                        authorities
+//                );
+//                Authentication auth = new UsernamePasswordAuthenticationToken(email, null, auths);
+//                SecurityContextHolder.getContext().setAuthentication(
+//                        auth
+//                );
+//            } catch (Exception e) {
+//                throw new BadCredentialsException("Invalid JWT...");
+//            }
+//        }
+
+        if (jwt != null && jwt.startsWith("Bearer ")) {
             jwt = jwt.substring(7);
-            try{
+            try {
                 SecretKey key = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRETE.getBytes());
+
                 Claims claims = Jwts.parser()
                         .verifyWith(key)
                         .build()
@@ -41,17 +77,20 @@ public class JwtValidator extends OncePerRequestFilter {
                 String email = String.valueOf(claims.get("email"));
                 String authorities = String.valueOf(claims.get("authorities"));
 
-                List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(
-                        authorities
-                );
-                Authentication auth = new UsernamePasswordAuthenticationToken(email, null, auths);
-                SecurityContextHolder.getContext().setAuthentication(
-                        auth
-                );
+                List<GrantedAuthority> auths =
+                        AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
+
+                Authentication auth =
+                        new UsernamePasswordAuthenticationToken(email, null, auths);
+
+                SecurityContextHolder.getContext().setAuthentication(auth);
+
             } catch (Exception e) {
-                throw new BadCredentialsException("Invalid JWT...");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
             }
         }
+
         filterChain.doFilter(request,response);
 
     }
