@@ -13,7 +13,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.Arrays;
+
+import java.util.Collections;
 import java.util.List;
 
 
@@ -21,31 +22,24 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http) throws Exception {
-
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
         return http
-                .sessionManagement(management -> management.sessionCreationPolicy(
-                        SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth ->
-                        auth
-                                .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/api/super-admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/**").authenticated()
+                .sessionManagement(management ->
+                        management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authorizeHttpRequests(Authorize ->
+                        Authorize.requestMatchers("/api/**").authenticated()
+                                .requestMatchers("/api/super-admin/**").hasAuthority("ADMIN")
                                 .anyRequest().permitAll()
-
-                ).addFilterBefore(new JwtValidator(),
-                        BasicAuthenticationFilter.class)
+                )
+                .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(
-                        cors -> cors.configurationSource(corsConfigurationSource())
-                ).build();
-
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -53,19 +47,21 @@ public class SecurityConfig {
         return new CorsConfigurationSource() {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                CorsConfiguration cfg = new CorsConfiguration();
-                cfg.setAllowedOrigins(
-                        Arrays.asList(
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.setAllowedOrigins(
+                        List.of(
                                 "http://localhost:5173",
                                 "http://localhost:3000"
                         )
                 );
-                cfg.setAllowedMethods(List.of("*"));
-                cfg.setAllowedHeaders(List.of("*"));
-                cfg.setAllowCredentials(true);
-                return cfg;
-            }
+                configuration.setAllowedMethods(Collections.singletonList("*"));
+                configuration.setAllowCredentials(true);
+                configuration.setAllowedHeaders(Collections.singletonList("*"));
+                configuration.setExposedHeaders(List.of("Authorization"));
+                configuration.setMaxAge(3600L);
 
+                return configuration;
+            }
         };
     }
 }

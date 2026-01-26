@@ -6,7 +6,8 @@ import com.lwando.pos.system.domain.UserRole;
 import com.lwando.pos.system.exceptions.UserException;
 import com.lwando.pos.system.mapper.UserMapper;
 import com.lwando.pos.system.modal.User;
-import com.lwando.pos.system.payload.dto.UserDto;
+import com.lwando.pos.system.payload.dto.UserDTO;
+import com.lwando.pos.system.payload.dto.UserDTO;
 import com.lwando.pos.system.payload.response.AuthResponse;
 import com.lwando.pos.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private final CustomUserImplementation customUserImplementation;
 
     @Override
-    public AuthResponse register(UserDto userDto) throws UserException {
+    public AuthResponse register(UserDTO userDto) throws UserException {
         User user = userRepository.findByEmail(userDto.getEmail());
         if(user != null){
             throw new UserException("email id already registered !");
@@ -72,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse login(UserDto userDto) throws UserException {
+    public AuthResponse login(UserDTO userDto) throws UserException {
         
         String email = userDto.getEmail();
         String password = userDto.getPassword();

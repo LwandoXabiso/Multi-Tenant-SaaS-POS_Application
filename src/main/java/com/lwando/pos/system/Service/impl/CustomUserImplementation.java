@@ -15,6 +15,33 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+//@Service
+//public class CustomUserImplementation implements UserDetailsService {
+//
+//    @Autowired
+//    private UserRepository userRepository;
+//
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//
+//        User user = userRepository.findByEmail(username);
+//        if(user == null){
+//            throw new UsernameNotFoundException("User not found");
+//        }
+//
+//        GrantedAuthority authority = new SimpleGrantedAuthority(
+//                user.getRole().toString()
+//        );
+//
+//        Collection<GrantedAuthority> authorities = Collections.singletonList(authority);
+//
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getEmail(), user.getPassword(), authorities
+//        );
+//        //return null;
+//    }
+//}
+
 @Service
 public class CustomUserImplementation implements UserDetailsService {
 
@@ -23,21 +50,20 @@ public class CustomUserImplementation implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         User user = userRepository.findByEmail(username);
-        if(user == null){
-            throw new UsernameNotFoundException("User not found");
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User with username: " + username + " not found");
         }
 
-        GrantedAuthority authority = new SimpleGrantedAuthority(
-                user.getRole().toString()
-        );
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().toString());
 
-        Collection<GrantedAuthority> authorities = Collections.singletonList(authority);
+        Collection<GrantedAuthority> grantedAuthorities = Collections.singletonList(grantedAuthority);
 
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(), authorities
+                user.getEmail(),
+                user.getPassword(),
+                grantedAuthorities
         );
-        //return null;
     }
 }

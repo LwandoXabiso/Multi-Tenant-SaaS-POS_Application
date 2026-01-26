@@ -1,5 +1,6 @@
 package com.lwando.pos.system.Service;
 
+import com.lwando.pos.system.domain.StoreStatus;
 import com.lwando.pos.system.exceptions.UserException;
 import com.lwando.pos.system.modal.Store;
 import com.lwando.pos.system.modal.User;
@@ -16,4 +17,6 @@ public interface StoreService {
     StoreDTO updateStore(Long id, StoreDTO storeDTO) throws Exception;
     void deleteStore(Long id) throws UserException;
     StoreDTO getStoreByEmployee() throws UserException;
+
+    StoreDTO moderateStore(Long id, StoreStatus status) throws Exception;
 }

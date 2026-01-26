@@ -1,6 +1,5 @@
 package com.lwando.pos.system.configuration;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -12,46 +11,87 @@ import javax.crypto.SecretKey;
 import java.util.*;
 
 
+//@Service
+//public class JwtProvider {
+//
+//    static SecretKey key = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRET.getBytes());
+//
+//    public String generateToken(Authentication authentication){
+//
+//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+//
+//        String roles = populateAuthorities(authorities);
+//
+//        return Jwts.builder()
+//                .issuedAt(new Date())
+//                .expiration(new Date(new Date().getTime()+ 8640000))
+//                .claim("email", authentication.getName())
+//                .claim("authorities", roles)
+//                .signWith(key)
+//                .compact();
+//    }
+//
+//    public String getEmailFromToken(String jwt){
+//        jwt = jwt.substring(7);
+//        Claims claims = Jwts.parser()
+//                .verifyWith(key)
+//                .build()
+//                .parseSignedClaims(jwt)
+//                .getPayload();
+//
+//        String email = String.valueOf(claims.get("email"));
+//
+//        return String.valueOf(claims.get("email"));
+//    }
+//
+//    private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
+//
+//        Set<String> auths = new HashSet<>();
+//        for (GrantedAuthority authority : authorities){
+//            auths.add(authority.getAuthority());
+//        }
+//
+//        return String.join(",", auths);
+//    }
+//}
+
 @Service
 public class JwtProvider {
 
-    static SecretKey key = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRETE.getBytes());
+    static SecretKey key = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRET.getBytes());
 
-    public String generateToken(Authentication authentication){
-
+    public String generateToken(Authentication authentication) {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         String roles = populateAuthorities(authorities);
 
         return Jwts.builder()
                 .issuedAt(new Date())
-                .expiration(new Date(new Date().getTime()+ 8640000))
+                .expiration(new Date(new Date().getTime() + 86400000))
                 .claim("email", authentication.getName())
                 .claim("authorities", roles)
                 .signWith(key)
                 .compact();
     }
 
-    public String getEmailFromToken(String jwt){
-        jwt = jwt.substring(7);
-        Claims claims = Jwts.parser()
+    public String getEmailFromJwtToken(String jwtToken) {
+        jwtToken = jwtToken.substring(7);
+
+        Claims claims = Jwts
+                .parser()
                 .verifyWith(key)
                 .build()
-                .parseSignedClaims(jwt)
+                .parseSignedClaims(jwtToken)
                 .getPayload();
-
-        String email = String.valueOf(claims.get("email"));
 
         return String.valueOf(claims.get("email"));
     }
 
     private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
-
-        Set<String> auths = new HashSet<>();
-        for (GrantedAuthority authority : authorities){
-            auths.add(authority.getAuthority());
+        Set<String> authoritiesSet = new HashSet<>();
+        for (GrantedAuthority grantedAuthority : authorities) {
+            authoritiesSet.add(grantedAuthority.getAuthority());
         }
-
-        return String.join(",", auths);
+        return String.join(",", authoritiesSet);
     }
 }
