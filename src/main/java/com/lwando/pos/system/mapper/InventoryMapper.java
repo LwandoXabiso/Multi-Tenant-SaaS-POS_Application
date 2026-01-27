@@ -1,8 +1,8 @@
 package com.lwando.pos.system.mapper;
 
-import com.lwando.pos.system.modal.Branch;
-import com.lwando.pos.system.modal.Inventory;
-import com.lwando.pos.system.modal.Product;
+import com.lwando.pos.system.model.Branch;
+import com.lwando.pos.system.model.Inventory;
+import com.lwando.pos.system.model.Product;
 import com.lwando.pos.system.payload.dto.InventoryDTO;
 
 public class InventoryMapper {
