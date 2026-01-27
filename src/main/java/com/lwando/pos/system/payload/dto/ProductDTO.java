@@ -1,7 +1,6 @@
 package com.lwando.pos.system.payload.dto;
 
 
-import com.lwando.pos.system.modal.Category;
 import lombok.Builder;
 import lombok.Data;
 

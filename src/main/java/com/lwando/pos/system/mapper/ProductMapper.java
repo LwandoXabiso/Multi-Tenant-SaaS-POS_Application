@@ -1,8 +1,8 @@
 package com.lwando.pos.system.mapper;
 
-import com.lwando.pos.system.modal.Category;
-import com.lwando.pos.system.modal.Product;
-import com.lwando.pos.system.modal.Store;
+import com.lwando.pos.system.model.Category;
+import com.lwando.pos.system.model.Product;
+import com.lwando.pos.system.model.Store;
 import com.lwando.pos.system.payload.dto.ProductDTO;
 
 public class ProductMapper {
