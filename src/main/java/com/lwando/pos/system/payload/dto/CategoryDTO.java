@@ -1,6 +1,5 @@
 package com.lwando.pos.system.payload.dto;
 
-import com.lwando.pos.system.modal.Store;
 import lombok.*;
 
 @Data

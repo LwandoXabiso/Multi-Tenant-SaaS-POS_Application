@@ -1,6 +1,6 @@
 package com.lwando.pos.system.mapper;
 
-import com.lwando.pos.system.modal.Category;
+import com.lwando.pos.system.model.Category;
 import com.lwando.pos.system.payload.dto.CategoryDTO;
 
 public class CategoryMapper {
