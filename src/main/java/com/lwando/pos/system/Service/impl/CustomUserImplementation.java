@@ -1,7 +1,7 @@
 package com.lwando.pos.system.Service.impl;
 
 
-import com.lwando.pos.system.modal.User;
+import com.lwando.pos.system.model.User;
 import com.lwando.pos.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 

@@ -2,7 +2,7 @@ package com.lwando.pos.system.controllers;
 
 import com.lwando.pos.system.Service.EmployeeService;
 import com.lwando.pos.system.domain.UserRole;
-import com.lwando.pos.system.modal.User;
+import com.lwando.pos.system.model.User;
 import com.lwando.pos.system.payload.dto.UserDTO;
 import com.lwando.pos.system.payload.response.ApiResponse;
 import lombok.RequiredArgsConstructor;

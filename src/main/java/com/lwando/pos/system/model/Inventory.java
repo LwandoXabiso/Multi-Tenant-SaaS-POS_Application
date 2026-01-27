@@ -1,4 +1,4 @@
-package com.lwando.pos.system.modal;
+package com.lwando.pos.system.model;
 
 
 import jakarta.persistence.*;
