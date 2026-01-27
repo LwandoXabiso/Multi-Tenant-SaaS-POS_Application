@@ -2,10 +2,10 @@ package com.lwando.pos.system.Service.impl;
 
 import com.lwando.pos.system.Service.ProductService;
 import com.lwando.pos.system.mapper.ProductMapper;
-import com.lwando.pos.system.modal.Category;
-import com.lwando.pos.system.modal.Product;
-import com.lwando.pos.system.modal.Store;
-import com.lwando.pos.system.modal.User;
+import com.lwando.pos.system.model.Category;
+import com.lwando.pos.system.model.Product;
+import com.lwando.pos.system.model.Store;
+import com.lwando.pos.system.model.User;
 import com.lwando.pos.system.payload.dto.ProductDTO;
 import com.lwando.pos.system.repository.CategoryRepository;
 import com.lwando.pos.system.repository.ProductRepository;
