@@ -1,6 +1,6 @@
 package com.lwando.pos.system.repository;
 
-import com.lwando.pos.system.modal.Customer;
+import com.lwando.pos.system.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.lwando.pos.system.controllers;
 
 import com.lwando.pos.system.Service.CustomerService;
-import com.lwando.pos.system.modal.Customer;
+import com.lwando.pos.system.model.Customer;
 import com.lwando.pos.system.payload.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

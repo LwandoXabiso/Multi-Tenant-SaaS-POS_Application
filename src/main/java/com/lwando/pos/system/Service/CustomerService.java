@@ -1,6 +1,6 @@
 package com.lwando.pos.system.Service;
 
-import com.lwando.pos.system.modal.Customer;
+import com.lwando.pos.system.model.Customer;
 
 import java.util.List;
 
