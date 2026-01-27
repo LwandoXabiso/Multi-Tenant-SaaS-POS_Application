@@ -3,11 +3,10 @@ package com.lwando.pos.system.controllers;
 import com.lwando.pos.system.Service.UserService;
 import com.lwando.pos.system.exceptions.UserException;
 import com.lwando.pos.system.mapper.UserMapper;
-import com.lwando.pos.system.modal.User;
+import com.lwando.pos.system.model.User;
 import com.lwando.pos.system.payload.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

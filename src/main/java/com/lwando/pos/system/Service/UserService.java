@@ -1,7 +1,7 @@
 package com.lwando.pos.system.Service;
 
 import com.lwando.pos.system.exceptions.UserException;
-import com.lwando.pos.system.modal.User;
+import com.lwando.pos.system.model.User;
 
 import java.util.List;
 

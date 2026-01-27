@@ -2,8 +2,8 @@ package com.lwando.pos.system.Service;
 
 import com.lwando.pos.system.domain.StoreStatus;
 import com.lwando.pos.system.exceptions.UserException;
-import com.lwando.pos.system.modal.Store;
-import com.lwando.pos.system.modal.User;
+import com.lwando.pos.system.model.Store;
+import com.lwando.pos.system.model.User;
 import com.lwando.pos.system.payload.dto.StoreDTO;
 
 import java.util.List;
