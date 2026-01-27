@@ -1,4 +1,4 @@
-package com.lwando.pos.system.modal;
+package com.lwando.pos.system.model;
 import com.lwando.pos.system.domain.StoreStatus;
 import jakarta.persistence.*;
 import lombok.*;

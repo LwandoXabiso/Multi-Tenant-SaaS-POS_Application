@@ -1,10 +1,7 @@
 package com.lwando.pos.system.payload.dto;
 
 import com.lwando.pos.system.domain.StoreStatus;
-import com.lwando.pos.system.modal.StoreContact;
-import com.lwando.pos.system.modal.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToOne;
+import com.lwando.pos.system.model.StoreContact;
 import lombok.Data;
 
 import java.time.LocalDateTime;

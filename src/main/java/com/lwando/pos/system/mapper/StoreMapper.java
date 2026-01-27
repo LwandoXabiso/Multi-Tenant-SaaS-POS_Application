@@ -1,7 +1,7 @@
 package com.lwando.pos.system.mapper;
 
-import com.lwando.pos.system.modal.Store;
-import com.lwando.pos.system.modal.User;
+import com.lwando.pos.system.model.Store;
+import com.lwando.pos.system.model.User;
 import com.lwando.pos.system.payload.dto.StoreDTO;
 
 public class StoreMapper {
