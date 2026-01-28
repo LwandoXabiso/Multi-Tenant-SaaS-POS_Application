@@ -16,6 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(
+        name = "branches",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "branch_address_unique", columnNames = "address"),
+                @UniqueConstraint(name = "branch_phone_unique", columnNames = "phone")
+        }
+)
 public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

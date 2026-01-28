@@ -10,6 +10,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(
+        name = "categories"
+)
 public class Category {
 
     @Id

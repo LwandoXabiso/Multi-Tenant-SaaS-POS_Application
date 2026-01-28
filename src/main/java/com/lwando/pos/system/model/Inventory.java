@@ -12,6 +12,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(
+        name = "inventories"
+
+)
 public class Inventory {
 
     @Id
